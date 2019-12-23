@@ -6,6 +6,7 @@ using Models;
 using Services.ServiceContracts;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -35,7 +36,8 @@ namespace Services.Services
 
         public IEnumerable<ListDiaryDTO> List(string userId)
         {
-            var RetVal = _unitOfWork.DiaryRepo.Search(a=>a.UserId == userId && a.IsDeleted == false);
+            var RetVal = _unitOfWork.DiaryRepo.Search(a=>a.UserId == userId && a.IsDeleted == false).OrderBy(a=>a.DueDate);
+
             if (RetVal != null)
             {
                 return _mapper.Map<IEnumerable<ListDiaryDTO>>(RetVal);
